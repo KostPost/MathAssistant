@@ -8,7 +8,7 @@ public class MathAssistantApplication {
 
 	public static void main(String[] args) {
 
-		System.out.println("qwe");
+		System.out.println("qwezxc");
 
 		SpringApplication.run(MathAssistantApplication.class, args);
 	}
