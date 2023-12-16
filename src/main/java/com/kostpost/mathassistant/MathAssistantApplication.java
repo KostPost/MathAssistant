@@ -17,8 +17,7 @@ public class MathAssistantApplication {
     public static void main(String[] args) throws ScriptException {
 
         ConfigurableApplicationContext context = SpringApplication.run(MathAssistantApplication.class, args);
-
-
+        EquationService service = context.getBean(EquationService.class);
 
         Scanner askAction = new Scanner(System.in);
         String action;
@@ -78,20 +77,22 @@ public class MathAssistantApplication {
                         double setX = 0;
                         boolean correctX = false;
                         if (Objects.equals(actionX, "y")) {
+
+
                             do {
                                 try {
                                     System.out.println("---------------------------------");
                                     System.out.println("Enter a x for equation: '" + newEquation + "'");
                                     setX = askX.nextDouble();
                                     break;
-                                }catch (Exception e) {
+                                } catch (Exception e) {
                                     System.out.println("Invalid input. Please enter a valid number.");
                                     askX.nextLine();
                                 }
-                            }while (true);
+                            } while (true);
 
 
-                            String updatedEquation = newEquation.replace("x",String.valueOf(setX));
+                            String updatedEquation = newEquation.replace("x", String.valueOf(setX));
 
                             String[] parts = updatedEquation.split("=");
 
@@ -103,19 +104,31 @@ public class MathAssistantApplication {
                             leftEquation.setEquation(parts[1].trim());
                             double rightResult = leftEquation.resolveExpression();
 
-                            System.out.println("Left = " + leftResult);
-                            System.out.println("Right = " + rightResult);
 
-                            if(leftResult == rightResult){
+                            if (leftResult == rightResult) {
+                                ////////////////// CORRECT X //////////////////////////
                                 System.out.println("Equation: " + newEquation + "' with x: " + setX + "' is correct");
 
-                            } else{
+                                Equation finalEquation = new Equation();
+                                finalEquation.setEquation(newEquation);
+                                finalEquation.setXForEquation(String.valueOf(setX));
+
+                                service.addEquation(finalEquation);
+                                break;
+
+                            } else {
+
                                 System.out.println("Equation: " + newEquation + "' with x: " + setX + "' is not correct");
                                 System.out.println("Must be: " + rightResult + ", but it's: " + leftResult);
                             }
 
 
+                        } else  if (Objects.equals(actionX, "n")) {
+                            Equation finalEquation = new Equation();
+                            finalEquation.setEquation(newEquation);
+                            finalEquation.setXForEquation("-");
 
+                            service.addEquation(finalEquation);
                         }
                     }
 
@@ -133,7 +146,6 @@ public class MathAssistantApplication {
         context.close();
         SpringApplication.run(MathAssistantApplication.class, args);
     }
-
 
 
 }

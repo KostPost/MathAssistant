@@ -1,31 +1,35 @@
 package com.kostpost.mathassistant;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.util.Stack;
 
+@Getter
+@Setter
+@Entity
+@Table(name = "equation")
 public class Equation {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String equation;
 
-    private String equationX;
+    private String xForEquation;
 
-    public String getEquationX() {
-        return equationX;
-    }
 
-    public void setEquationX(String equationX) {
-        this.equationX = equationX;
-    }
-
-    public String getEquation() {
-        return equation;
-    }
-
-    public void setEquation(String equation) {
-        this.equation = equation;
-    }
 
     ////////////////////////////// SOLVE ///////////////////////////////////////////////////////
 
