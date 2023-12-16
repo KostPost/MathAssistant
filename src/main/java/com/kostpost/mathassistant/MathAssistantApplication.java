@@ -4,6 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Stack;
@@ -11,13 +14,11 @@ import java.util.Stack;
 @SpringBootApplication
 public class MathAssistantApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ScriptException {
 
         ConfigurableApplicationContext context = SpringApplication.run(MathAssistantApplication.class, args);
-//
-//		Equation equation = new Equation();
-//        equation.setEquation("1 + -2");
-//        System.out.println(equation.checkEquation())
+
+
 
         Scanner askAction = new Scanner(System.in);
         String action;
@@ -30,7 +31,7 @@ public class MathAssistantApplication {
 
                 case "1": {
                     Scanner askEquation = new Scanner(System.in);
-                    String newEquation = null;
+                    String newEquation = "";
 
                     do {
                         System.out.println("---------------------------------");
@@ -41,8 +42,7 @@ public class MathAssistantApplication {
                             System.out.println("---------------------------------");
                             System.out.println("Equation can't be null");
                             System.out.println("---------------------------------");
-                        }
-						else if(Objects.equals(newEquation, "exit")) break;
+                        } else if (Objects.equals(newEquation, "exit")) break;
 
                     } while (newEquation == null || newEquation.isEmpty());
 
@@ -56,25 +56,64 @@ public class MathAssistantApplication {
                         Scanner askX = new Scanner(System.in);
                         String actionX = "";
                         if (isValid) {
+                            ////////////////////////// VALID //////////////////////////////
                             System.out.println("---------------------------------");
                             System.out.println("This equation is valid");
                             System.out.println("---------------------------------");
 
-                            do{
+                            do {
                                 System.out.println("Would u like to enter a x? y/n");
                                 actionX = askX.nextLine();
 
 
-                            }while (!(actionX.equals("y") || actionX.equals("n")));
+                            } while (!(actionX.equals("y") || actionX.equals("n")));
                         } else {
+                            ////////////////////////// NOT VALID //////////////////////////////
                             System.out.println("---------------------------------");
                             System.out.println("This equation is not valid");
                             System.out.println("---------------------------------");
                         }
 
-                        if(Objects.equals(actionX, "y")){
-                            System.out.println("---------------------------------");
-                            System.out.println("Enter a x for equation: '" + newEquation + "'");
+
+                        double setX = 0;
+                        boolean correctX = false;
+                        if (Objects.equals(actionX, "y")) {
+                            do {
+                                try {
+                                    System.out.println("---------------------------------");
+                                    System.out.println("Enter a x for equation: '" + newEquation + "'");
+                                    setX = askX.nextDouble();
+                                    break;
+                                }catch (Exception e) {
+                                    System.out.println("Invalid input. Please enter a valid number.");
+                                    askX.nextLine();
+                                }
+                            }while (true);
+
+
+                            String updatedEquation = newEquation.replace("x",String.valueOf(setX));
+
+                            String[] parts = updatedEquation.split("=");
+
+                            Equation leftEquation = new Equation();
+                            leftEquation.setEquation(parts[0].trim());
+                            double leftResult = leftEquation.resolveExpression();
+
+                            Equation rightEquation = new Equation();
+                            leftEquation.setEquation(parts[1].trim());
+                            double rightResult = leftEquation.resolveExpression();
+
+                            System.out.println("Left = " + leftResult);
+                            System.out.println("Right = " + rightResult);
+
+                            if(leftResult == rightResult){
+                                System.out.println("Equation: " + newEquation + "' with x: " + setX + "' is correct");
+
+                            } else{
+                                System.out.println("Equation: " + newEquation + "' with x: " + setX + "' is not correct");
+                                System.out.println("Must be: " + rightResult + ", but it's: " + leftResult);
+                            }
+
 
 
                         }
@@ -94,6 +133,7 @@ public class MathAssistantApplication {
         context.close();
         SpringApplication.run(MathAssistantApplication.class, args);
     }
+
 
 
 }

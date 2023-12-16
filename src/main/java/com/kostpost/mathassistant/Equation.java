@@ -1,5 +1,8 @@
 package com.kostpost.mathassistant;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.util.Stack;
 
 public class Equation {
@@ -24,18 +27,92 @@ public class Equation {
         this.equation = equation;
     }
 
+    ////////////////////////////// SOLVE ///////////////////////////////////////////////////////
 
+    public double resolveExpression() {
+        return new Object() {
+            int pos = -1, ch;
 
+            void nextChar() {
+                ch = (++pos < equation.length()) ? equation.charAt(pos) : -1;
+            }
 
+            boolean eat(int charToEat) {
+                while (ch == ' ') {
+                    nextChar();
+                }
+                if (ch == charToEat) {
+                    nextChar();
+                    return true;
+                }
+                return false;
+            }
 
+            double parse() {
+                nextChar();
+                double x = parseExpression();
+                if (pos < equation.length()) {
+                    throw new RuntimeException("Unexpected: " + (char) ch);
+                }
+                return x;
+            }
 
+            double parseExpression() {
+                double x = parseTerm();
+                for (;;) {
+                    if (eat('+')) {
+                        x += parseTerm();
+                    } else if (eat('-')) {
+                        x -= parseTerm();
+                    } else {
+                        return x;
+                    }
+                }
+            }
 
+            double parseTerm() {
+                double x = parseFactor();
+                for (;;) {
+                    if (eat('*')) {
+                        x *= parseFactor();
+                    } else if (eat('/')) {
+                        x /= parseFactor();
+                    } else {
+                        return x;
+                    }
+                }
+            }
+
+            double parseFactor() {
+                if (eat('+')) {
+                    return parseFactor();
+                }
+                if (eat('-')) {
+                    return -parseFactor();
+                }
+                double x;
+                int startPos = this.pos;
+                if (eat('(')) {
+                    x = parseExpression();
+                    eat(')');
+                } else if ((ch >= '0' && ch <= '9') || ch == '.') {
+                    while ((ch >= '0' && ch <= '9') || ch == '.') {
+                        nextChar();
+                    }
+                    x = Double.parseDouble(equation.substring(startPos, this.pos));
+                } else {
+                    throw new RuntimeException("Unexpected: " + (char) ch);
+                }
+                return x;
+            }
+        }.parse();
+    }
 
 
 
 
     ///////////////////////////////////// CHECK ///////////////////////////////////////////////
-    private boolean validateEquation(String equation, boolean isValid) {
+    private boolean validateEquation(String equation) {
         if (!checkBrackets(equation)) {
             return false;
         }
@@ -64,6 +141,31 @@ public class Equation {
     }
 
     public static boolean isOperatorSequenceValid(String equation) {
+
+        String startValidSymbols = "-1234567890x ";
+        if(!startValidSymbols.contains(Character.toString(equation.charAt(0)))){
+            return false;
+        }
+
+        String endValidSymbols = "1234567890";
+        if(!endValidSymbols.contains(Character.toString(equation.charAt(equation.length() - 1)))) {
+            return false;
+        }
+
+        String ValidSymbols = "+-*/1234567890x=";
+        for (int i = 0; i < equation.length() - 1; i++) {
+
+            if(!ValidSymbols.contains(Character.toString(equation.charAt(i))))
+                return false;
+        }
+
+        if(equation.chars().filter(ch -> ch == '=').count() != 1)
+            return false;
+
+        if(equation.chars().filter(ch -> ch == 'x').count() <= 0)
+            return false;
+
+
         for (int i = 0; i < equation.length() - 1; i++) {
             char currentChar = equation.charAt(i);
             char nextChar = equation.charAt(i + 1);
@@ -73,7 +175,7 @@ public class Equation {
                 return false;
             }
         }
-        return true; // Якщо не знайдено два оператори підряд, повертаємо true
+        return true;
     }
 
     private String removeExtraSpaces(String task) {
@@ -82,10 +184,8 @@ public class Equation {
     }
 
     public boolean checkEquation(){
-        boolean isValid = false;
-        isValid = validateEquation(equation, isValid);
-
-        return isValid;
+        equation = removeExtraSpaces(equation);
+        return validateEquation(equation);
     }
     ///////////////////////////////////// CHECK ///////////////////////////////////////////////
 }
