@@ -29,6 +29,8 @@ public class Equation {
 
     private String xForEquation;
 
+    private Long xCount;
+
 
 
     ////////////////////////////// SOLVE ///////////////////////////////////////////////////////
