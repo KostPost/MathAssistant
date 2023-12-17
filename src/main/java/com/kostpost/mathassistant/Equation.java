@@ -29,7 +29,16 @@ public class Equation {
 
     private String xForEquation;
 
-    private Long xCount;
+    private long xCount;
+
+    public void setXCount(){
+       xCount = 0;
+        for (int i = 0; i < equation.length(); i++) {
+            if (equation.charAt(i) == 'x') {
+                xCount++;
+            }
+        }
+    }
 
 
 

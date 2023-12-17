@@ -74,15 +74,8 @@ public class MathAssistantApplication {
                             System.out.println("---------------------------------");
                         }
 
-                        long countX = 0;
-                        for (int i = 0; i < newEquation.length(); i++) {
-                            if (newEquation.charAt(i) == 'x') {
-                                countX++;
-                            }
-                        }
-
-
                         double setX = 0;
+                        Equation finalEquation = new Equation();
                         if (Objects.equals(actionX, "y")) {
 
 
@@ -108,7 +101,7 @@ public class MathAssistantApplication {
                             double leftResult = leftEquation.resolveExpression();
 
                             Equation rightEquation = new Equation();
-                            leftEquation.setEquation(parts[1].trim());
+                            rightEquation.setEquation(parts[1].trim());
                             double rightResult = leftEquation.resolveExpression();
 
 
@@ -117,10 +110,10 @@ public class MathAssistantApplication {
                                 System.out.println("Equation: " + newEquation + "' with x: " + setX + "' is correct");
 
 
-                                Equation finalEquation = new Equation();
+
                                 finalEquation.setEquation(newEquation);
                                 finalEquation.setXForEquation(String.valueOf(setX));
-                                finalEquation.setXCount(countX);
+                                finalEquation.setXCount();
 
                                 service.addEquation(finalEquation);
                                 break;
@@ -133,12 +126,12 @@ public class MathAssistantApplication {
 
 
                         } else  if (Objects.equals(actionX, "n")) {
-                            Equation finalEquation = new Equation();
+
 
 
                             finalEquation.setEquation(newEquation);
                             finalEquation.setXForEquation("-");
-                            finalEquation.setXCount(countX);
+                            finalEquation.setXCount();
 
                             service.addEquation(finalEquation);
                         }
