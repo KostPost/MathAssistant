@@ -121,7 +121,7 @@ public class Equation {
 
 
     ///////////////////////////////////// CHECK ///////////////////////////////////////////////
-    private boolean validateEquation(String equation) {
+    boolean validateEquation(String equation) {
         if (!checkBrackets(equation)) {
             return false;
         }
@@ -133,7 +133,7 @@ public class Equation {
         return true;
     }
 
-    private  boolean checkBrackets(String equation) {
+    boolean checkBrackets(String equation) {
         Stack<Character> stack = new Stack<>();
 
         for (char c : equation.toCharArray()) {
@@ -149,7 +149,7 @@ public class Equation {
         return stack.isEmpty(); // Повертає true, якщо всі дужки були коректно закриті
     }
 
-    public static boolean isOperatorSequenceValid(String equation) {
+    boolean isOperatorSequenceValid(String equation) {
 
         String startValidSymbols = "-1234567890x ";
         if(!startValidSymbols.contains(Character.toString(equation.charAt(0)))){
@@ -161,7 +161,7 @@ public class Equation {
             return false;
         }
 
-        String ValidSymbols = "+-*/1234567890x=";
+        String ValidSymbols = "+-*/1234567890x=()";
         for (int i = 0; i < equation.length() - 1; i++) {
 
             if(!ValidSymbols.contains(Character.toString(equation.charAt(i))))
