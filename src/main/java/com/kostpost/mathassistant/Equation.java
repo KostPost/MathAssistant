@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.List;
 import java.util.Stack;
 
 @Getter
@@ -117,8 +118,6 @@ public class Equation {
             }
         }.parse();
     }
-
-
 
 
     ///////////////////////////////////// CHECK ///////////////////////////////////////////////

@@ -1,10 +1,13 @@
 package com.kostpost.mathassistant;
 
+import org.hibernate.mapping.Array;
+import org.hibernate.mapping.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.script.ScriptException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -19,7 +22,10 @@ public class MathAssistantApplication {
         Scanner askAction = new Scanner(System.in);
         String action;
         do {
-            System.out.println("1 - Create equation");
+            System.out.println("""
+            1 - Create equation
+            2 - Find equation
+            3 - Exit""");
             action = askAction.nextLine();
 
             switch (action) {
@@ -132,11 +138,84 @@ public class MathAssistantApplication {
                 }
 
                 case "2": {
-                    Scanner RootFind
+                    Scanner askRootFind = new Scanner(System.in);
+                    String doRootFind;
+
+                    Scanner askDataForFind = new Scanner(System.in);
+
+
+                    ArrayList<Equation> equationFind = new ArrayList<>();
+                    do {
+                        System.out.println("""
+                                1 - Find by equation
+                                2 - Find by root count
+                                3 - Find by root
+                                4 - Exit""");
+                        doRootFind = askRootFind.nextLine();
+
+
+                        switch (doRootFind){
+
+                            case "1":{
+                                String findByEquation = "";
+                                System.out.println("Enter equation for find");
+                                findByEquation = askDataForFind.nextLine();
+
+
+                                equationFind = service.findByEquation(findByEquation);
+
+                                if(equationFind != null){
+                                    service.Print(equationFind);
+                                }
+
+                                break;
+                            }
+
+                            case "2":{
+                                long findByRootCount;
+                                System.out.println("Enter root count equation for find\nEnter: '-' for find equation with unknown root");
+                                findByRootCount = askDataForFind.nextLong();
+
+
+                                equationFind = service.findByRootCount(findByRootCount);
+
+                                if(equationFind != null){
+                                    service.Print(equationFind);
+                                }
+
+                                break;
+                            }
+
+                            case "3":{
+
+                                String findByRoot = "";
+                                System.out.println("Enter equation for find");
+                                findByRoot = askDataForFind.nextLine();
+
+
+                                equationFind = service.findByRootEquation(findByRoot);
+
+                                if(equationFind != null){
+                                    service.Print(equationFind);
+                                }
+
+                                break;
+                            }
+
+                            default:{
+                                if(!doRootFind.equals("4")){
+                                }
+                                break;
+                            }
+
+                        }
+
+                    }while (!Objects.equals(doRootFind, "4"));
+
+                    
                 }
 
                 default: {
-                    System.out.println("error");
                 }
             }
 
