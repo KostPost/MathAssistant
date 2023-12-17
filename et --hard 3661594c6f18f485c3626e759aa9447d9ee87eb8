@@ -1,0 +1,47 @@
+[33mcommit 3661594c6f18f485c3626e759aa9447d9ee87eb8[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: KosPost <kt5082206@gmail.com>
+Date:   Sun Dec 17 02:04:50 2023 +0200
+
+    add x count in db
+
+[33mcommit faf37c2a3326814b608553c036bfebe3eeed6f29[m
+Author: KosPost <kt5082206@gmail.com>
+Date:   Sun Dec 17 01:52:09 2023 +0200
+
+    add equation in db
+
+[33mcommit 83ccbba9caf54c9f3193ff7b449ac89275bb38be[m
+Author: KosPost <kt5082206@gmail.com>
+Date:   Sun Dec 17 01:28:56 2023 +0200
+
+    add resolve and check result equation without sql
+
+[33mcommit fc8de47effda5108cdb6cb62333eadae9cb47d51[m
+Author: KosPost <kt5082206@gmail.com>
+Date:   Sat Dec 16 00:26:13 2023 +0200
+
+    add create equation without sql
+
+[33mcommit cbef282ce15754c362ebb8db0a4b8bc0c2b1d10a[m
+Author: KosPost <kt5082206@gmail.com>
+Date:   Wed Dec 13 01:29:32 2023 +0200
+
+    add check is Leveling correct
+
+[33mcommit 7e50d49793e213acde0c2e4f7dfe5edd960a7608[m
+Author: KosPost <kt5082206@gmail.com>
+Date:   Wed Dec 13 00:14:41 2023 +0200
+
+    fix
+
+[33mcommit 8eb5aa3f150668829b5123117d7f917c2432d15e[m
+Author: KosPost <kt5082206@gmail.com>
+Date:   Wed Dec 13 00:14:02 2023 +0200
+
+    fixqwe
+
+[33mcommit 8c20e44cc932bf42d558e9080be238a6db823e90[m
+Author: KosPost <kt5082206@gmail.com>
+Date:   Wed Dec 13 00:13:26 2023 +0200
+
+    fix

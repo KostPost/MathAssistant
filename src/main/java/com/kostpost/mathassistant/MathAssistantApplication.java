@@ -4,12 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.Stack;
 
 @SpringBootApplication
 public class MathAssistantApplication {
@@ -18,7 +15,6 @@ public class MathAssistantApplication {
 
         ConfigurableApplicationContext context = SpringApplication.run(MathAssistantApplication.class, args);
         EquationService service = context.getBean(EquationService.class);
-
 
         Scanner askAction = new Scanner(System.in);
         String action;
@@ -53,8 +49,8 @@ public class MathAssistantApplication {
                         boolean isValid = createEquation.checkEquation();
 
 
-                        Scanner askX = new Scanner(System.in);
-                        String actionX = "";
+                        Scanner askRoot = new Scanner(System.in);
+                        String actionRoot = "";
                         if (isValid) {
                             ////////////////////////// VALID //////////////////////////////
                             System.out.println("---------------------------------");
@@ -63,10 +59,10 @@ public class MathAssistantApplication {
 
                             do {
                                 System.out.println("Would u like to enter a x? y/n");
-                                actionX = askX.nextLine();
+                                actionRoot = askRoot.nextLine();
 
 
-                            } while (!(actionX.equals("y") || actionX.equals("n")));
+                            } while (!(actionRoot.equals("y") || actionRoot.equals("n")));
                         } else {
                             ////////////////////////// NOT VALID //////////////////////////////
                             System.out.println("---------------------------------");
@@ -74,25 +70,25 @@ public class MathAssistantApplication {
                             System.out.println("---------------------------------");
                         }
 
-                        double setX = 0;
+                        double setRoot = 0;
                         Equation finalEquation = new Equation();
-                        if (Objects.equals(actionX, "y")) {
+                        if (Objects.equals(actionRoot, "y")) {
 
 
                             do {
                                 try {
                                     System.out.println("---------------------------------");
                                     System.out.println("Enter a x for equation: '" + newEquation + "'");
-                                    setX = askX.nextDouble();
+                                    setRoot = askRoot.nextDouble();
                                     break;
                                 } catch (Exception e) {
                                     System.out.println("Invalid input. Please enter a valid number.");
-                                    askX.nextLine();
+                                    askRoot.nextLine();
                                 }
                             } while (true);
 
 
-                            String updatedEquation = newEquation.replace("x", String.valueOf(setX));
+                            String updatedEquation = newEquation.replace("x", String.valueOf(setRoot));
 
                             String[] parts = updatedEquation.split("=");
 
@@ -106,38 +102,37 @@ public class MathAssistantApplication {
 
 
                             if (leftResult == rightResult) {
-                                ////////////////// CORRECT X //////////////////////////
-                                System.out.println("Equation: " + newEquation + "' with x: " + setX + "' is correct");
-
-
+                                ////////////////// CORRECT ROOT //////////////////////////
+                                System.out.println("Equation: " + newEquation + "' with x: " + setRoot + "' is correct");
 
                                 finalEquation.setEquation(newEquation);
-                                finalEquation.setXForEquation(String.valueOf(setX));
-                                finalEquation.setXCount();
+                                finalEquation.setRootEquation(String.valueOf(setRoot));
+                                finalEquation.setRootCount();
 
                                 service.addEquation(finalEquation);
                                 break;
 
                             } else {
-
-                                System.out.println("Equation: " + newEquation + "' with x: " + setX + "' is not correct");
+                                System.out.println("Equation: " + newEquation + "' with x: " + setRoot + "' is not correct");
                                 System.out.println("Must be: " + rightResult + ", but it's: " + leftResult);
                             }
 
 
-                        } else  if (Objects.equals(actionX, "n")) {
-
-
+                        } else if (Objects.equals(actionRoot, "n")) {
 
                             finalEquation.setEquation(newEquation);
-                            finalEquation.setXForEquation("-");
-                            finalEquation.setXCount();
+                            finalEquation.setRootEquation("-");
+                            finalEquation.setRootCount();
 
                             service.addEquation(finalEquation);
                         }
                     }
 
                     break;
+                }
+
+                case "2": {
+                    Scanner RootFind
                 }
 
                 default: {

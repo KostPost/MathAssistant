@@ -6,13 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.util.Stack;
 
 @Getter
@@ -27,15 +22,15 @@ public class Equation {
 
     private String equation;
 
-    private String xForEquation;
+    private String rootEquation;
 
-    private long xCount;
+    private long rootCount;
 
-    public void setXCount(){
-       xCount = 0;
+    public void setRootCount(){
+       rootCount = 0;
         for (int i = 0; i < equation.length(); i++) {
             if (equation.charAt(i) == 'x') {
-                xCount++;
+                rootCount++;
             }
         }
     }
@@ -184,6 +179,9 @@ public class Equation {
         for (int i = 0; i < equation.length() - 1; i++) {
             char currentChar = equation.charAt(i);
             char nextChar = equation.charAt(i + 1);
+
+            if(currentChar == 'x' && nextChar == 'x')
+                return false;
 
             if ((currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/')
                     && (nextChar == '+' || nextChar == '-' || nextChar == '*' || nextChar == '/')) {
